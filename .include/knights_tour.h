@@ -1,7 +1,8 @@
 #include <stddef.h>
 #include <time.h>
 
-#define SIZE 8       /**< Board size. */
+#define SIZE 8
+       /**< Board size. */
 #define VISITED 1    /**< Been there */
 #define MOVE_COUNT 8 /**< Number of moves that a knight can make */
 
@@ -14,7 +15,7 @@ typedef unsigned int board_t[SIZE][SIZE];
 
 /** Determines whether a move is possible from a starting position.
  *
- * @param move_id One of the 8 moves that the knight wants to make [0, 7]
+ * @param move_id ID of one of the 8 moves that the knight can to make [0, 7]
  * @param x Current horizontal position
  * @param y Current vertical position
  * @param visited A two-dimensional array that represents the squares.
@@ -68,7 +69,7 @@ unsigned int Tour_greedy(size_t x, size_t y);
  * @param y
  * @return unsigned int
  */
-unsigned int Tour_recursive(size_t x, size_t y);
+unsigned int Tour_recursive(size_t x, size_t y,size_t depth);
 
 /**
  * @brief Attempts tours beginning from each square available on the board

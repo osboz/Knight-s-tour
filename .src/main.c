@@ -15,8 +15,34 @@ int main()
   Tour_from_each_square(Tour_random);
   puts("\ngreedy");
   Tour_from_each_square(Tour_greedy);
-  puts("\nrecursive");
-  Tour_from_each_square(Tour_recursive);
 
-  return 0;
+  for (int i = 1; i < 11; ++i)
+  {
+    printf_s("\nrecursive %i\n", i);
+
+    unsigned int startTime = clock();
+
+    /* column labels */
+    printf("   "); /* left margin for row labels */
+    for (int col = 0; col < SIZE; ++col)
+      printf("%2c ", 'A' + col);
+    printf("\n");
+
+    for (int y = 0; y < SIZE; ++y)
+    {
+      /* row label (1-based) */
+      printf("%2d  ", y + 1);
+
+      for (int x = 0; x < SIZE; ++x)
+      {
+        unsigned int count = Tour_recursive(x, y, i);
+        printf("%2u", count);
+        if (x < SIZE - 1)
+          putchar(' ');
+      }
+      printf("\n");
+    }
+
+    printf_s("time used, %ds\n", (clock() - startTime) / 1000);
+  }
 }

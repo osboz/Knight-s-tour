@@ -38,11 +38,34 @@ int Possible_moves(size_t x, size_t y, board_t chessboard)
 {
   int count = 0;
   for (int i = 0; i < MOVE_COUNT; i++)
-  {
-    if (Move_is_possible(i, x + MOVES[i][0], y + MOVES[i][1], chessboard))
+    if (Move_is_possible(i, x, y, chessboard))
       count++;
-  }
+
   return count;
+}
+
+int Possible_moves_recursive(size_t x, size_t y, board_t chessboard, size_t depth)
+{
+  if (depth <= 0)
+    return 0;
+
+  int max_count = 0;
+  for (int i = 0; i < MOVE_COUNT; ++i)
+  {
+    if (!Move_is_possible(i, x, y, chessboard))
+      continue;
+
+    int new_x = x + (int)MOVES[i][0];
+    int new_y = y + (int)MOVES[i][1];
+
+    chessboard[new_x][new_y] = VISITED;
+    int child_count = 1 + Possible_moves_recursive(new_x, new_y, chessboard, depth - 1);
+    chessboard[new_x][new_y] = 0; /* backtrack */
+
+    if (child_count > max_count)
+      max_count = child_count;
+  }
+  return max_count;
 }
 
 void Tour_from_each_square(unsigned int (*Tour)(size_t, size_t))
@@ -71,11 +94,61 @@ Start:
     if (Move_is_possible(move_id, x, y, chessboard))
     {
       count++;
-      chessboard[x][y] = VISITED;
       x += MOVES[move_id][0];
       y += MOVES[move_id][1];
+      chessboard[x][y] = VISITED;
       goto Start;
     }
+  }
+
+  return count;
+}
+
+unsigned int Tour_recursive(size_t start_x, size_t start_y, size_t depth)
+{
+  board_t chessboard = {0};
+  int x = start_x;
+  int y = start_y;
+  chessboard[x][y] = VISITED;
+  unsigned int count = 0;
+
+  while (1)
+  {
+    int best_move_id = -1;
+    int best_score = -1; /* sentinel: lower than any possible score */
+
+    for (int i = 0; i < MOVE_COUNT; ++i)
+    {
+      if (!Move_is_possible(i, x, y, chessboard))
+        continue;
+
+      int new_x = x + MOVES[i][0];
+      int new_y = y + MOVES[i][1];
+
+      /* copy board for simulation */
+      board_t tempboard;
+      for (int r = 0; r < SIZE; ++r)
+        for (int c = 0; c < SIZE; ++c)
+          tempboard[r][c] = chessboard[r][c];
+
+      tempboard[new_x][new_y] = VISITED;
+      int score = 1 + Possible_moves_recursive(new_x, new_y, tempboard, depth - 1);
+
+      if (score > best_score)
+      {
+          best_score = score;
+          best_move_id = i;
+      }
+    }
+
+    if (best_move_id == -1)
+      break; /* no legal moves */
+
+    /* apply best move */
+    x += MOVES[best_move_id][0];
+    y += MOVES[best_move_id][1];
+    chessboard[x][y] = VISITED;
+    ++count;
   }
 
   return count;
@@ -138,16 +211,6 @@ unsigned int Tour_greedy(size_t x, size_t y)
   //   // y += MOVES[best_move[0]][1];
   //   // goto Start;
   //   return best_move[1];
-
-  return 1;
-}
-
-unsigned int Tour_recursive(size_t x, size_t y, size_t depth)
-{
-  // Start:
-  board_t chessboard = {0};
-  chessboard[x][y] = 1;
-  unsigned int count = 0;
 
   return 1;
 }
