@@ -14,6 +14,6 @@ int main()
   Tour_from_each_square(Tour_random);
   puts("\n\nWarnsdorff");
   Tour_from_each_square(Tour_warnsdorff);
-  puts("\n\nBrute force");
+  puts("\n\nBrute force 8 steps lookahead");
   Tour_from_each_square(Tour_brute_force);
 }

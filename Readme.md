@@ -1,113 +1,29 @@
 # Knight’s tour
 
-You will implement two cryptosystems:
-    [Caesar cipher](https://en.wikipedia.org/wiki/Caesar_cipher)
-    [Vigenère cipher](https://en.wikipedia.org/wiki/Vigen%C3%A8re_cipher)
-    
+https://c-programming.aydos.de/week06/knights-tour.html
 
-Draw a flowchart for this [problem](#problem).
-> Flowchart : ![Flowchart](Crytography_flowchart.png)
+Draw a flowchart 
+> Flowchart : ![Flowchart](Flowchart_knightsTour.png)
 
-Make code to solve the [problem](#problem)
-> Da code : [code](.src/main.c)
+Make code to solve the [Requirementse](#Requirements)
+> Code : [code](.src/main.c)
 
 Changes made to the problem
-> Da [Changes](#Changes)
+> [Changes](#Changes)
 
-Explain where i used modularization
-> [here|•◡•|](#Modularization)
 ---
 
-# Problem 
+# Problem
+>Implement a program that begins on a square and makes the first move that is possible and continues moving in the same manner until it is not possible anymore. This is a greedy algorithm.
+>Greedy algorithm - An algorithm that makes the locally optimal choice at each stage.
 
-Implement the cryptosystem in section Cryptography. 
-
-## Requirements:
-- Flowchart
-- Has a command-line interface
-- Use modularization as much as possible, i.e., header files, functions for repetitive code.
-- What was your [modularization](#Modularization) approach to each part you have implemented, i.e., CLI, Caesar, Vigenere? 1-3 sentences per part are enough. Include this test in your README.
-- For your header files you use include folder.
-- Your header file is documented using Doxygen syntax.
+But since all values have the same value of they are possible to move to. A "greedy" algorithm is not possible to make. 
+So i have instead made 4 other algorithms, and not made a "greedy" algorithm, since that is not possible.
 
 
-## Caesar
-You have to implement two functions:
-```
-> char *caesar_encrypt(char *plaintext);
-> char *caesar_decrypt(char *ciphertext);
-```
-These functions work in-place, in other words, you don’t have to create a new string for the encrypted/decrypted text.
-
-## Vigenère
-Similar to Caesar, however every character in the plaintext can be shifted by a variable amount. The amount to shift is determined by the key of alphabetic characters, where A corresponds to 0, B 1, etc. There is a wrap-around if necessary like in Caesar.
-
-Implement the functions:
-```
-> char *vigenere_encrypt(char *plaintext, char *key);
-> char *vigenere_decrypt(char *ciphertext, char *key);
-```
-## Asumptions
-You can assume that plaintext:
-    is uppercase
-    contains no spaces, numbers or punctuation
-
-# Modularization
-I made the function ***talCirkulærRundingMinMax()***, so i could easily get a int that fit in the alphabet mulitple times. 
-caesar is a function that can en/decrypt text based on an int
-Vigenère is a function that can en/decrypt text based on a char
-
-# Changes
-1. Made *vigenere_encrypt* and *vigenere_decrypt* into a single function with a parameter to change modes instead
-2. Same for the Caesar functions
-
-(knights-tour)=
-# Knight's tour
-
-:::{commons-figure} https://commons.wikimedia.org/wiki/File:Knight%27s_tour.svg
-:name: knights-tour-open
-:figwidth: 35%
-:align: right
-A possible knight's tour on a chessboard.
-:::
-
-:::{commons-figure} https://commons.wikimedia.org/wiki/File:Turk-knights-tour.svg
-:name: knights-tour-closed
-:figwidth: 35%
-:align: right
-A closed-loop solution performed [by the Turk](https://en.wikipedia.org/wiki/Mechanical_Turk) in 1780s. A closed loop solution implies that we can start from every square and find a solution.
-:::
-
-
-:::{wpd} Knight's tour
-A sequence of moves of a knight on a chessboard such that the knight visits every square once.
-:::
-
-We will implement a program that tries to solve the Knight's tour problem. The problem can be solved with an open or closed loop like in {numref}`knights-tour-open` and {numref}`knights-tour-closed`, respectively. It does not matter which solution your program finds.
-
-:::{activity} A shorter tour on a 4x4 board
-:label: knights-tour-4x4
-1. Draw a 4x4 board and write `1` to one field that you choose. Move the knight and write the incremented number to the new field. Play as long the knight can make moves. How many squares could you visit?
-1. Try the tour by beginning on other squares. Do you think that beginning from a corner or middle square is better?
-:::
-
-:::{activity} Computational solution flowchart
-:label: knights-tour-4x4
-You tried to solve the problem manually in {numref}`knights-tour-4x4`. Draw a flowchart that describes your process.
-
-Pay attention to when the process ends.
-<!-- probably the students will think about a `move_is_possible` function-->
-:::
-
-Implement a program that begins on a square and makes the first move that is possible and continues moving in the same manner until it is not possible anymore. This is a *greedy algorithm*.
-
-:::{wpd} Greedy algorithm
-An algorithm that makes the locally optimal choice at each stage.
-:::
-
-Requirements:
+# Requirements
 1. Your documentation includes flowchart/s.
-1. Your program outputs the maximum number of squares toured for each square as follows:
+2. Your program outputs the maximum number of squares toured for each square as follows:
 
    ```text
    Greedy:
@@ -120,11 +36,10 @@ Requirements:
    10 54 46 54 55 31 39 54 
    42 37 35 55 36 32 35 32
    ```
-1. Your program uses the following compile-time constants and functions.
+3. Your program uses the following compile-time constants and functions.
 
    ```c
    #define SIZE 8       /**< Board size. */
-   
 
    /**
     * Knight move offsets
@@ -169,11 +84,11 @@ Requirements:
     */
    void greedy_tour_from_each_square();
    ```
-1. Even `SIZE` is 8 as default, your program should also work with `SIZE`s other than 8.
-1. Organize your project into the files `knights_tour.{h,c}` and `main.c`.
-1. Optional: Implement a non-greedy approach that prioritizes squares that are more difficult to access compared to others. For example the following table shows for each destination square, from how many departure squares the destination square is accessible on a 8x8 board.
+4. Even `SIZE` is 8 as default, your program should also work with `SIZE`s other than 8.
+5. Organize your project into the files `knights_tour.{h,c}` and `main.c`.
+6. Optional: Implement a non-greedy approach that prioritizes squares that are more difficult to access compared to others. For example the following table shows for each destination square, from how many departure squares the destination square is accessible on a 8x8 board.
 
-   ``` 
+   ```plaintext
    2  3  4  4  4  4  3  2 
    3  4  6  6  6  6  4  3 
    4  6  8  8  8  8  6  4 
@@ -184,13 +99,9 @@ Requirements:
    2  3  4  4  4  4  3  2
    ```
    
-:::{video} ../img/knights-tour-board-visualization-during-debugging.webm
-:name: test
-:figwidth: 35%
-:align: right
-:caption: Tour visualization using the variables window in debugger. The knight jumps first to [6][4] (value `1`) and then to `2` and `3`.
-:::
-
-::::{tip}
-If you view the array that represents the tour in the debugger, then you can track where the knight goes after each breakpoint as shown in the video on the right.
-::::
+# Changes
+1. Did not make a greedy algorithm, instead i added
+   1. A algorithm picks the first possible move it find
+   2. A algorithm that picks a random possible move
+   3. The Warnsdorff algorithm
+   4. A recursive function that checks X moves forward, and picks the one with most options

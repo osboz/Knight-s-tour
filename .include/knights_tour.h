@@ -1,7 +1,7 @@
 #include <stddef.h>
 #include <time.h>
 
-#define SIZE 6       /**< Board size. */
+#define SIZE 8       /**< Board size. */
 #define VISITED 1    /**< Been there */
 #define MOVE_COUNT 8 /**< Number of moves that a knight can make */
 #define DEPTH 8      /**< Depth of recursion. */
@@ -39,11 +39,24 @@ int Possible_moves(size_t x, size_t y, board_t chessboard);
  */
 unsigned int Tour_first(size_t x, size_t y);
 
+
+/**
+ * @brief return the number of possible moves from this location
+ * 
+ * @param x x start position
+ * @param y y start position
+ * @param chessboard the current chessboard 
+ * @param depth how deep to go in the steps
+ * @note a depth is given to prevent infinite loops
+ * @return int, the number of possible moves
+ */
+int Possible_moves_recursive(size_t x, size_t y, board_t chessboard, size_t depth)
+
 /**
  * @brief knights tour with random choices
  *
- * @param x
- * @param y
+ * @param x x start position
+ * @param y y start position
  * @return The number of visited squares as an unsigned int
  */
 unsigned int Tour_random(size_t x, size_t y);
@@ -51,9 +64,9 @@ unsigned int Tour_random(size_t x, size_t y);
 /**
  * @brief runs the warnsdorff tour
  *
- * @param x
- * @param y
- * @return unsigned int
+ * @param x x start position
+ * @param y y start position
+ * @return The number of visited squares as an unsigned int
  */
 unsigned int Tour_warnsdorff(size_t x, size_t y);
 
@@ -61,9 +74,9 @@ unsigned int Tour_warnsdorff(size_t x, size_t y);
  * @brief Attempts tours beginning from each square available on the board
  * with the greedy algorithm
  *
- * @param x
- * @param y
- * @return unsigned int
+ * @param x x start position
+ * @param y y start position
+ * @return The number of visited squares as an unsigned int
  */
 unsigned int Tour_brute_force(size_t x, size_t y);
 
@@ -76,7 +89,7 @@ unsigned int Tour_brute_force(size_t x, size_t y);
  *  8 10 14 14
  * 14 14 14 11
  *
- * @param Tour passes what tour funtion to use, First, Random, Greedy, Recursive
+ * @param Tour passes what tour funtion to use, First, Random, Warnsdorff, Recursive
  */
 void Tour_from_each_square(unsigned int (*Tour)(size_t, size_t));
 
