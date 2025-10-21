@@ -4,6 +4,8 @@
 #define SIZE 6       /**< Board size. */
 #define VISITED 1    /**< Been there */
 #define MOVE_COUNT 8 /**< Number of moves that a knight can make */
+#define DEPTH 8      /**< Depth of recursion. */
+
 
 typedef unsigned int board_t[SIZE][SIZE];
 
@@ -63,7 +65,7 @@ unsigned int Tour_warnsdorff(size_t x, size_t y);
  * @param y
  * @return unsigned int
  */
-unsigned int Tour_brute_force(size_t x, size_t y, size_t depth);
+unsigned int Tour_brute_force(size_t x, size_t y);
 
 /**
  * @brief Attempts tours beginning from each square available on the board

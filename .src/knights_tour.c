@@ -74,7 +74,12 @@ void Tour_from_each_square(unsigned int (*Tour)(size_t, size_t))
   printf("    "); /* left margin for row labels */
   for (int col = 0; col < SIZE; ++col)
     printf("%2c ", 'A' + col);
-  printf("\n    ---------------------------\n");
+
+  printf("\n    ");
+  for (int col = 0; col < SIZE; ++col)
+    printf("---");
+
+  printf("\n");
 
   for (int y = 0; y < SIZE; ++y)
   {
@@ -142,11 +147,9 @@ Start:
   return count;
 }
 
-unsigned int Tour_brute_force(size_t start_x, size_t start_y, size_t depth)
+unsigned int Tour_brute_force(size_t x, size_t y)
 {
   board_t chessboard = {0};
-  int x = start_x;
-  int y = start_y;
   chessboard[x][y] = VISITED;
   unsigned int count = 0;
 
@@ -169,7 +172,7 @@ Start:
         tempboard[r][c] = chessboard[r][c];
 
     tempboard[new_x][new_y] = VISITED;
-    int score = Possible_moves_recursive(new_x, new_y, tempboard, depth - 1);
+    int score = Possible_moves_recursive(new_x, new_y, tempboard, DEPTH - 1);
 
     if (score <= best_score)
       continue;
