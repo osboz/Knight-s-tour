@@ -1,15 +1,9 @@
 #include <stddef.h>
 #include <time.h>
 
-#define SIZE 8
-       /**< Board size. */
+#define SIZE 6       /**< Board size. */
 #define VISITED 1    /**< Been there */
 #define MOVE_COUNT 8 /**< Number of moves that a knight can make */
-
-#define FIRST 0     /**< Value for greedy strat */
-#define RANDOM 1    /**< Value for random strat */
-#define GREEDY 2    /**< Value for recursive strat */
-#define RECURSIVE 3 /**< Value for recursive strat */
 
 typedef unsigned int board_t[SIZE][SIZE];
 
@@ -53,13 +47,13 @@ unsigned int Tour_first(size_t x, size_t y);
 unsigned int Tour_random(size_t x, size_t y);
 
 /**
- * @brief runs the "greedy tour"
+ * @brief runs the warnsdorff tour
  *
  * @param x
  * @param y
  * @return unsigned int
  */
-unsigned int Tour_greedy(size_t x, size_t y);
+unsigned int Tour_warnsdorff(size_t x, size_t y);
 
 /**
  * @brief Attempts tours beginning from each square available on the board
@@ -69,7 +63,7 @@ unsigned int Tour_greedy(size_t x, size_t y);
  * @param y
  * @return unsigned int
  */
-unsigned int Tour_recursive(size_t x, size_t y,size_t depth);
+unsigned int Tour_brute_force(size_t x, size_t y, size_t depth);
 
 /**
  * @brief Attempts tours beginning from each square available on the board

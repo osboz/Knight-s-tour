@@ -1,3 +1,5 @@
 -std=gnu2y
 -g
+-O3
+-march=native
 -I.include

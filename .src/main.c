@@ -11,31 +11,33 @@ int main()
   // printf("%u\n", test);  // Use printf instead of puts
   puts("first");
   Tour_from_each_square(Tour_first);
-  puts("\nrandom");
+  puts("\n\nrandom");
   Tour_from_each_square(Tour_random);
-  puts("\ngreedy");
-  Tour_from_each_square(Tour_greedy);
+  puts("\n\nwarnsdorff");
+  Tour_from_each_square(Tour_warnsdorff);
 
-  for (int i = 1; i < 11; ++i)
+
+  for (int i = 10; i < 100; ++i)
   {
-    printf_s("\nrecursive %i\n", i);
+    if (i > SIZE * SIZE)
+      continue;
 
     unsigned int startTime = clock();
-
+    printf_s("\n\nrecursive %i\n", i);
     /* column labels */
-    printf("   "); /* left margin for row labels */
+    printf("    "); /* left margin for row labels */
     for (int col = 0; col < SIZE; ++col)
       printf("%2c ", 'A' + col);
-    printf("\n");
+    printf("\n    ---------------------------\n");
 
     for (int y = 0; y < SIZE; ++y)
     {
       /* row label (1-based) */
-      printf("%2d  ", y + 1);
+      printf("%2d | ", y + 1);
 
       for (int x = 0; x < SIZE; ++x)
       {
-        unsigned int count = Tour_recursive(x, y, i);
+        unsigned int count = Tour_brute_force(x, y, i);
         printf("%2u", count);
         if (x < SIZE - 1)
           putchar(' ');
