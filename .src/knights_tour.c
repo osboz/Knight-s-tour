@@ -4,7 +4,6 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define MOVE_COUNT 8 /**< Number of moves that a knight can make */
 const size_t MOVES[MOVE_COUNT][2] = {
     {2, 1},
     {1, 2},
@@ -15,7 +14,7 @@ const size_t MOVES[MOVE_COUNT][2] = {
     {1, -2},
     {2, -1}};
 
-int move_is_possible(size_t move_id, size_t x, size_t y, board_t chessboard)
+int Move_is_possible(size_t move_id, size_t x, size_t y, board_t chessboard)
 {
   x += MOVES[move_id][0];
   y += MOVES[move_id][1];
@@ -35,87 +34,46 @@ int move_is_possible(size_t move_id, size_t x, size_t y, board_t chessboard)
   return 1;
 }
 
-void tour_from_each_square(size_t strategy)
+int Possible_moves(size_t x, size_t y, board_t chessboard)
 {
-  if (strategy == RANDOM)
-    goto Random;
-
-  for (size_t start_x = 0; start_x < SIZE; ++start_x)
+  int count = 0;
+  for (int i = 0; i < MOVE_COUNT; i++)
   {
-    for (size_t start_y = 0; start_y < SIZE; ++start_y)
-    {
-      // printf_s("Starting from (%zu, %zu)\n", start_x, start_y);
-      unsigned int count = tour_first(start_x, start_y);
-      printf_s("%2u ", count);
-    }
-    printf_s("\n");
-  }
-  return;
-
-Random:
-  for (size_t start_y = 0; start_y < SIZE; ++start_y)
-  {
-    for (size_t start_x = 0; start_x < SIZE; ++start_x)
-    {
-      // printf_s("Starting from (%zu, %zu)\n", start_x, start_y);
-      unsigned int count = tour_random(start_x, start_y);
-      printf_s("%2d ", count);
-    }
-    printf_s("\n");
-  }
-  return;
-}
-
-unsigned int tour_first(size_t start_x, size_t start_y)
-{
-  board_t chessboard = {0};
-  chessboard[start_x][start_y] = 1;
-
-  int pos_x = start_x;
-  int pos_y = start_y;
-  unsigned int count = 0;
-start:
-  // printf_s("\n\nmove %i : position -> %i, %i\n", count, pos_x, pos_y);
-  for (size_t move_id = 0; move_id < MOVE_COUNT; ++move_id)
-  {
-    if (move_is_possible(move_id, pos_x, pos_y, chessboard))
-    {
+    if (Move_is_possible(i, x + MOVES[i][0], y + MOVES[i][1], chessboard))
       count++;
-      chessboard[pos_x][pos_y] = VISITED;
-      pos_x += MOVES[move_id][0];
-      pos_y += MOVES[move_id][1];
-      goto start;
-    }
   }
-
   return count;
 }
 
-unsigned int tour_random(size_t start_x, size_t start_y)
+void Tour_from_each_square(unsigned int (*Tour)(size_t, size_t))
+{
+  for (size_t x = 0; x < SIZE; ++x)
+  {
+    for (size_t y = 0; y < SIZE; ++y)
+    {
+      unsigned int count = Tour(x, y);
+      printf("%2u ", count);
+    }
+    printf("\n");
+  }
+  return;
+}
+
+unsigned int Tour_first(size_t x, size_t y)
 {
   board_t chessboard = {0};
-  chessboard[start_x][start_y] = 1;
-
-  int pos_x = start_x;
-  int pos_y = start_y;
+  chessboard[x][y] = 1;
   unsigned int count = 0;
-
-  int move_ids[SIZE];
-  for (int i = 0; i < SIZE; i++)
-    move_ids[i] = i;
-
 Start:
-  shuffle(move_ids, SIZE);
-
-  for (int i = 0; i < SIZE; i++)
+  // printf_s("\n\nmove %i : position -> %i, %i\n", count, pos_x, pos_y);
+  for (size_t move_id = 0; move_id < MOVE_COUNT; ++move_id)
   {
-    size_t move_id = move_ids[i];
-    if (move_is_possible(move_id, pos_x, pos_y, chessboard))
+    if (Move_is_possible(move_id, x, y, chessboard))
     {
       count++;
-      chessboard[pos_x][pos_y] = VISITED;
-      pos_x += MOVES[move_id][0];
-      pos_y += MOVES[move_id][1];
+      chessboard[x][y] = VISITED;
+      x += MOVES[move_id][0];
+      y += MOVES[move_id][1];
       goto Start;
     }
   }
@@ -123,8 +81,79 @@ Start:
   return count;
 }
 
+unsigned int Tour_random(size_t x, size_t y)
+{
+  board_t chessboard = {0};
+  chessboard[x][y] = 1;
+  unsigned int count = 0;
+
+  int move_ids[MOVE_COUNT];
+  for (int i = 0; i < MOVE_COUNT; i++)
+    move_ids[i] = i;
+
+Start:
+  Shuffle(move_ids, MOVE_COUNT);
+
+  for (int i = 0; i < MOVE_COUNT; i++)
+  {
+    size_t move_id = move_ids[i];
+    if (Move_is_possible(move_id, x, y, chessboard))
+    {
+      count++;
+      chessboard[x][y] = VISITED;
+      x += MOVES[move_id][0];
+      y += MOVES[move_id][1];
+      goto Start;
+    }
+  }
+
+  return count;
+}
+
+unsigned int Tour_greedy(size_t x, size_t y)
+{
+  //   board_t chessboard = {0};
+  //   chessboard[x][y] = 1;
+
+  // Start:
+  //   for (int i = 0; i < MOVE_COUNT; i++)
+  //     if (!Move_is_possible(i, x, y, chessboard))
+  //       continue;
+
+  //   int best_move[2] = {-1};
+  //   for (int i = 0; i < MOVE_COUNT; i++)
+  //   {
+  //     int temp_moves = Possible_moves(x, y, 0, 0, chessboard);
+
+  //     if (temp_moves > best_move[1])
+  //     {
+  //       best_move[0] = i;
+  //       best_move[1] = temp_moves;
+  //     }
+  //   }
+
+  //   // count++;
+  //   // chessboard[x][y] = VISITED;
+  //   // x += MOVES[best_move[0]][0];
+  //   // y += MOVES[best_move[0]][1];
+  //   // goto Start;
+  //   return best_move[1];
+
+  return 1;
+}
+
+unsigned int Tour_recursive(size_t x, size_t y, size_t depth)
+{
+  // Start:
+  board_t chessboard = {0};
+  chessboard[x][y] = 1;
+  unsigned int count = 0;
+
+  return 1;
+}
+
 // https://stackoverflow.com/questions/6127503/shuffle-array-in-c
-void shuffle(int *array, size_t n)
+void Shuffle(int *array, size_t n)
 {
   if (n > 1)
   {

@@ -1,11 +1,14 @@
 #include <stddef.h>
 #include <time.h>
 
-#define SIZE 8    /**< Board size. */
-#define VISITED 1 /**< Been there */
-#define GREEDY 0 /**< Value for greedy strat */
-#define RANDOM 1 /**< Value for random strat */
-#define RECURSIVE 2 /**< Value for recursive strat */
+#define SIZE 8       /**< Board size. */
+#define VISITED 1    /**< Been there */
+#define MOVE_COUNT 8 /**< Number of moves that a knight can make */
+
+#define FIRST 0     /**< Value for greedy strat */
+#define RANDOM 1    /**< Value for random strat */
+#define GREEDY 2    /**< Value for recursive strat */
+#define RECURSIVE 3 /**< Value for recursive strat */
 
 typedef unsigned int board_t[SIZE][SIZE];
 
@@ -18,25 +21,54 @@ typedef unsigned int board_t[SIZE][SIZE];
  * If a value is positive, then the corresponding field was visited before.
  * @return True if the move is possible, else false.
  */
-int move_is_possible(size_t move_id, size_t x, size_t y, board_t visited);
+int Move_is_possible(size_t move_id, size_t x, size_t y, board_t chessboard);
 
-/** Attempts a tour by picking the first accessible square.
+/**
+ * @brief Determines how many moves are possible from a starting position.
+
  *
- * @param start_x Horizontal starting position on the board
- * @param start_y Vertical starting position on the board
+ * @param start_x
+ * @param start_y
+ * @return int
+ */
+int Possible_moves(size_t x, size_t y, board_t chessboard);
+
+/** Attempts a tour by picking the first possible move.
+ *
+ * @param x Horizontal starting position on the board
+ * @param y Vertical starting position on the board
  * @return The number of visited squares
  * @note An array is created for the attempt
  */
-unsigned int tour_first(size_t start_x, size_t start_y);
+unsigned int Tour_first(size_t x, size_t y);
 
 /**
  * @brief knights tour with random choices
  *
- * @param start_x
- * @param start_y
+ * @param x
+ * @param y
+ * @return The number of visited squares as an unsigned int
+ */
+unsigned int Tour_random(size_t x, size_t y);
+
+/**
+ * @brief runs the "greedy tour"
+ *
+ * @param x
+ * @param y
  * @return unsigned int
  */
-unsigned int tour_random(size_t start_x, size_t start_y);
+unsigned int Tour_greedy(size_t x, size_t y);
+
+/**
+ * @brief Attempts tours beginning from each square available on the board
+ * with the greedy algorithm
+ *
+ * @param x
+ * @param y
+ * @return unsigned int
+ */
+unsigned int Tour_recursive(size_t x, size_t y);
 
 /**
  * @brief Attempts tours beginning from each square available on the board
@@ -47,19 +79,9 @@ unsigned int tour_random(size_t start_x, size_t start_y);
  *  8 10 14 14
  * 14 14 14 11
  *
- *
- * @param strategy 0 for greedy, 1 for random, 2 for recursive
+ * @param Tour passes what tour funtion to use, First, Random, Greedy, Recursive
  */
-void tour_from_each_square(size_t strategy);
+void Tour_from_each_square(unsigned int (*Tour)(size_t, size_t));
 
 // https://stackoverflow.com/questions/6127503/shuffle-array-in-c
-void shuffle(int *array, size_t n);
-
-//**
- * @brief 
- * 
- * @param start_x 
- * @param start_y 
- * @return unsigned int 
- */
-unsigned int recursive_tour(size_t start_x, size_t start_y);
+void Shuffle(int *array, size_t n);
