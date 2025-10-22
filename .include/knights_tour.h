@@ -1,7 +1,7 @@
 #include <stddef.h>
 #include <time.h>
 
-#define SIZE 10       /**< Board size. */
+#define SIZE 8       /**< Board size. */
 #define VISITED 1    /**< Been there */
 #define MOVE_COUNT 8 /**< Number of moves that a knight can make */
 #define DEPTH 8      /**< Depth of recursion. */

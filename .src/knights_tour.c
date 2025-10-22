@@ -187,8 +187,8 @@ Start:
   /* apply best move */
   x += MOVES[best_move_id][0];
   y += MOVES[best_move_id][1];
-  chessboard[x][y] = VISITED;
   ++count;
+  chessboard[x][y] = count + VISITED;
   goto Start;
 }
 
@@ -196,7 +196,7 @@ unsigned int Tour_warnsdorff(size_t x, size_t y)
 {
   board_t chessboard = {0};
   chessboard[x][y] = VISITED;
-  unsigned int count = 0;
+  unsigned int count = 1;
 
   int move_ids[MOVE_COUNT];
   for (int i = 0; i < MOVE_COUNT; i++)
@@ -214,7 +214,7 @@ Start:
 
     int score = Possible_moves(x + MOVES[i][0], y + MOVES[i][1], chessboard);
 
-    if (score > best_score || score == 0)
+    if (score > best_score)
     {
       continue;
     }
@@ -244,8 +244,8 @@ Start:
   /* apply best move */
   x += MOVES[best_move_id][0];
   y += MOVES[best_move_id][1];
-  chessboard[x][y] = count + 2;
   ++count;
+  chessboard[x][y] = count;
   goto Start;
 }
 
