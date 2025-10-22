@@ -214,7 +214,7 @@ Start:
 
     int score = Possible_moves(x + MOVES[i][0], y + MOVES[i][1], chessboard);
 
-    if (score > best_score)
+    if (score > best_score || score == 0)
     {
       continue;
     }
@@ -224,22 +224,7 @@ Start:
   }
 
   if (best_move_id == -1)
-  {
-    // printf("\n");
-    // for (int y = 0; y < SIZE; ++y)
-    // {
-    //   /* row label (1-based) */
-    //   printf("%2d | ", y + 1);
-    //   for (int x = 0; x < SIZE; ++x)
-    //   {
-    //     printf("%2u ", chessboard[x][y]);
-    //   }
-    //   printf("\n");
-    // }
-    // printf("\n");
-
-    return count;
-  }
+    return count + 1;
 
   /* apply best move */
   x += MOVES[best_move_id][0];
