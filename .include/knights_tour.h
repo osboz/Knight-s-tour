@@ -1,7 +1,7 @@
 #include <stddef.h>
 #include <time.h>
 
-#define SIZE 8       /**< Board size. */
+#define SIZE 10       /**< Board size. */
 #define VISITED 1    /**< Been there */
 #define MOVE_COUNT 8 /**< Number of moves that a knight can make */
 #define DEPTH 8      /**< Depth of recursion. */
@@ -50,7 +50,7 @@ unsigned int Tour_first(size_t x, size_t y);
  * @note a depth is given to prevent infinite loops
  * @return int, the number of possible moves
  */
-int Possible_moves_recursive(size_t x, size_t y, board_t chessboard, size_t depth)
+int Possible_moves_recursive(size_t x, size_t y, board_t chessboard, size_t depth);
 
 /**
  * @brief knights tour with random choices
